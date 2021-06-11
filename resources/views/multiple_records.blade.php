@@ -15,7 +15,7 @@
             padding: 9px 22px;
             margin: 0 2px;
             border-radius: 6px;
-            border: 1px solid #b089b2; 
+            border: 1px solid #b089b2;
         }
     </style>
 </head>
