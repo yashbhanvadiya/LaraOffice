@@ -30,8 +30,8 @@
 
                   <h4 class="card-title">Edit Form</h4><br>
                   <form class="forms-sample" method="post" action="{{ url('/edit_form_record') }}" enctype="multipart/form-data" id="edit_form">
-
                     @csrf
+
                     <input type="hidden" name="form_id" value="{{$FormRec->id}}" />
 
                     <div class="form-group">
@@ -115,7 +115,7 @@
                     <div class="form-group">
                         <label>Image</label>
                         <input type="file" class="form-control" id="image" name="image">
-                        <img src='{{ url("/admin/images/$FormRec->image")}}' alt="image" width="40px" height="40px">
+                        <img src='{{ URL::to("/admin/images/$FormRec->image")}}' alt="image" width="40px" height="40px">
                     </div>
 
                     <div class="form-group">
