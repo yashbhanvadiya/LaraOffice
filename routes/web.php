@@ -108,8 +108,12 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::post('/add_form_record', [AdminFormController::class, 'addFormRecord']);
     Route::get('/view_form', [AdminFormController::class, 'viewForm']);
     Route::get('/delete-field/{id}', [AdminFormController::class, 'DeleteRec']);
-    Route::get('/edit-field/{id}', [AdminFormController::class, 'editField']);
+    Route::get('/edit-field/{id}'   , [AdminFormController::class, 'editField']);
     Route::post('/edit_form_record', [AdminFormController::class, 'editFormRecord']);
+    // Live Searching
+    Route::get('/search', [AdminFormController::class, 'LiveSearch']);
+    // Multiple Delete
+    Route::delete('/delete_record', [AdminFormController::class, 'deleteMultipleRec'])->name('deleteSelected');
 
     // User
     Route::get('/logout', [UserController::class, 'LogoutRec']);

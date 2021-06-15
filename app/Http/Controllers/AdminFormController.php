@@ -183,4 +183,55 @@ class AdminFormController extends Controller
         AdminForm::where('id',$id)->update($FormEditRec);
         return redirect('/view_form')->with('msg',1);
     }
+
+    public function LiveSearch(Request $req)
+    {
+        if($req->ajax())
+        {
+            $data = AdminForm::where('id','like','%'.$req->search.'%')
+                            ->orwhere('first_name','like','%'.$req->search.'%')
+                            ->orwhere('last_name','like','%'.$req->search.'%')
+                            ->orwhere('email','like','%'.$req->search.'%')->get();
+
+            $output = '';
+                foreach($data as $formRec){
+                    $output.='<tr>'.
+                        '<td>'.'<input type="checkbox" id="checkboxid" value="{{ $formRec->id }}">'.'</td>'.
+                        '<td>'.$formRec->id.'</td>'.
+                        '<td>'.$formRec->first_name.'</td>'.
+                        '<td>'.$formRec->last_name.'</td>'.
+                        '<td>'.$formRec->email.'</td>'.
+                        '<td>'.$formRec->phone.'</td>'.
+                        '<td>'.$formRec->gender.'</td>'.
+                        '<td>'.$formRec->state.'</td>'.
+                        '<td>'.$formRec->city.'</td>'.
+                        '<td>'.$formRec->address.'</td>'.
+                        '<td>'.$formRec->pincode.'</td>'.
+                        '<td>'.$formRec->description.'</td>'.
+                        '<td>'."<img src='admin/images/$formRec->image' width='50px' height='50px'>".'</td>'.
+                        // '<td>'."
+                        //         foreach(explode(',',$formRec->mimages) as $mim){
+                        //             <img src='admin/mimages/'.$mim' width='50px' height='50px'>
+                        //         }
+                        //         ".'</td>'.
+                        '<td>'."<a href='/delete-field/$formRec->id' class='delete-confirm'><i class='mdi mdi-delete'></i></a>".'</td>'.
+                        '<td>'."<a href='/edit-field/$formRec->id' class='edit-confirm'><i class='mdi mdi-border-color'></i></a>".'</td>'.
+                    '</tr>';
+                }
+        }
+        else
+        {   
+            $FormRecord = AdminForm::paginate(5);
+            return view('view_form', compact('FormRecord'));
+        }
+
+        return response ($output);
+    }
+
+    public function deleteMultipleRec(Request $req)
+    {   
+        $ids = $req->ids;
+        AdminForm::whereIn('id',$ids)->delete();
+        return response()->json(['success'=>'Record have been deleted']);
+    }
 }
